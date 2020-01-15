@@ -12,3 +12,8 @@ genproto:
 	python3 -m grpc_tools.protoc -I../proto --python_out=. --grpc_python_out=. ../proto/medifor/v1/*.proto
 	# python3 -m grpc_tools.protoc -I../proto/v1 --python_out=. ../proto/v1/google/rpc/*.proto
 	# touch google/rpc/__init__.py # for Python2 compatibility.
+
+# Generate type hints. Requires https://github.com/dropbox/mypy-protobuf
+mypy:
+	python3 -m grpc_tools.protoc -I../proto --python_out=. --mypy_out=. --grpc_python_out=. ../proto/medifor/v1/*.proto
+
