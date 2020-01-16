@@ -1,5 +1,7 @@
 import os
-import sys
+
+from setuptools import setup, find_packages
+
 
 def iter_protos(parent=None):
     for root, _, files in os.walk('proto'):
@@ -8,7 +10,6 @@ def iter_protos(parent=None):
         dest = root if not parent else os.path.join(parent, root)
         yield dest, [os.path.join(root, f) for f in files]
 
-from setuptools import setup, find_packages
 
 pkg_name = 'medifor'
 
@@ -24,19 +25,23 @@ setup(name=pkg_name,
       license='Apache License, Version 2.0',
       packages=find_packages(),
       install_requires=[
-          'setuptools==39.0.1',
+          'setuptools',
+          'Click~=7.0',
           'grpcio==1.15.0',
           'grpcio-tools==1.15.0',
           'grpcio_health_checking==1.15.0',
           'protobuf>=3.6.1',
           'googleapis-common-protos==1.6.0',
-          'Click==7.0',
-          'pillow==6.2.0',
-          'dataclasses==0.6',
-          'six==1.12.0',
-          'requests==2.22.0',
-          'Flask==1.1.1'
+          'dataclasses~=0.6',
+          'six',
       ],
+      extras_require={
+          'prov_example': [  # provenance filter example
+              'pillow~=6.2.0',
+              'Flask~=1.1.1',
+              'requests~=2.22.0',
+          ],
+      },
       data_files=list(iter_protos(pkg_name)),
       py_modules=[
           'medifor.v1.analytic_pb2',
